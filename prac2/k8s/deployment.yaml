@@ -1,36 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: marketsenseai-backend
-  labels:
-    app: marketsenseai-backend
+  name: app
+  namespace: production
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: marketsenseai-backend
+      app: demo
   template:
     metadata:
       labels:
-        app: marketsenseai-backend
+        app: demo
     spec:
       containers:
-        - name: backend
-          image: ghcr.io/jait345/marketsenseai-backend:latest
+        - name: app
+          image: jesus272/demo:latest
           ports:
-            - containerPort: 4000
-          env:
-            - name: PORT
-              value: "4000"
-            - name: NODE_ENV
-              value: "production"
-            - name: MONGO_URI
-              valueFrom:
-                secretKeyRef:
-                  name: marketsenseai-secrets
-                  key: MONGO_URI
-            - name: JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: marketsenseai-secrets
-                  key: JWT_SECRET
+            - containerPort: 3000

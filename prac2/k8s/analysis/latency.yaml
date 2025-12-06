@@ -1,0 +1,11 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: latency-check
+spec:
+  metrics:
+    - name: latency
+      successCondition: result < 500
+      provider:
+        prometheus:
+          query: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))

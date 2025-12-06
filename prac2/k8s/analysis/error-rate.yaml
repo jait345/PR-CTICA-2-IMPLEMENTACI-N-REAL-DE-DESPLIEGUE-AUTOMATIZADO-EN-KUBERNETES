@@ -1,0 +1,11 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: error-rate-check
+spec:
+  metrics:
+    - name: error-rate
+      successCondition: result < 0.02
+      provider:
+        prometheus:
+          query: rate(http_requests_total{status=~"5.."}[5m])

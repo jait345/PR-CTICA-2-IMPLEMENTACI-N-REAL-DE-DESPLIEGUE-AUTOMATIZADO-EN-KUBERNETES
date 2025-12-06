@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: app-rollout
+  namespace: production
+spec:
+  strategy:
+    canary:
+      steps:
+        - setWeight: 50
+      analysis:
+        templates:
+          - templateName: error-rate-check
+          - templateName: latency-check
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+        - name: app
+          image: jesus272/demo:latest
